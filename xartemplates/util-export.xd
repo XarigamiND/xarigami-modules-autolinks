@@ -1,0 +1,20 @@
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Import and Export Utilities</xar:mlstring></h1>
+        <xar:template type="module" file="util-menu" />
+        <div class="xar-mod-content">
+            <h2>Export Autolinks</h2>
+                <form>
+                    <div>
+                        <textarea name="xml" id="xml" rows="30" cols="80">#$xml#</textarea>
+                    </div>
+                </form>
+
+        </div>
+    </div>
+</div>

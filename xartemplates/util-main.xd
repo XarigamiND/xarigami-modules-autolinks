@@ -1,0 +1,23 @@
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Import and Export Utilities</xar:mlstring></h1>
+        <xar:template type="module" file="util-menu" />
+        <div class="xar-mod-content">
+        <ul>
+            <li><a href="#xarModURL('autolinks','util','export')#"><xar:mlstring>Export all autolinks</xar:mlstring></a></li>
+            <xar:comment><li><a href="#xarModURL('autolinks','util','import')#"><xar:mlstring>Import Autolinks</xar:mlstring></a></li></xar:comment>
+            <xar:comment><li><xar:mlstring>Import Autolinks</xar:mlstring> [TODO]</li></xar:comment>
+            <xar:if condition="$counter gt 0">
+                <li><xar:mlstring>Samples already exist.  Delete or rename existing links and link types if you want to restore or recreate the samples. </xar:mlstring><a href="#xarModURL('autolinks','util','samples')#"><xar:mlstring>View existing sample links.</xar:mlstring></a></li>
+            <xar:else />
+                 <li><a href="#xarModURL('autolinks','util','samples')#"><xar:mlstring>Create sample links.</xar:mlstring></a></li>
+            </xar:if>
+        </ul>
+        </div>
+    </div>
+</div>

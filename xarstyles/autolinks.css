@@ -1,0 +1,19 @@
+/*
+    Usedfor the autolinks admin screens.
+*/
+
+
+.xar-autolinks-status-enabled {
+    background-image: url("../../base/xarimages/icons/package-installed.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 20px;
+}
+.xar-autolinks-status-disabled {
+    background-image: url("../../base/xarimages/icons/package-inactive.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 20px;
+}
+
+

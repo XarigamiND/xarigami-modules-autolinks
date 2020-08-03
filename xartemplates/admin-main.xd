@@ -1,0 +1,77 @@
+<xar:comment> License: GPL http://www.gnu.org/copyleft/gpl.html </xar:comment>
+<xar:set name="modInfo">xarModGetInfo(xarModGetIDFromName('autolinks'))</xar:set>
+<xar:set name="xarigamiprojectlink">'<a href="http://xarigami.com/contrails/view/xauto/" title="'.xarML('xarigami Autolinks Project page at xarigami.com').'">'.xarML('xarigami Autolinks project page').'</a>'</xar:set>
+
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Overview</xar:mlstring></h1>
+        <div class="xar-mod-content">
+          <img src="#xarTplGetImage('admin.png','autolinks')#" class="xar-module-icon" alt="official icon" />
+          <h3><xar:mlstring>What is it?</xar:mlstring></h3>
+            <p>
+                <em><xar:mlstring>Autolinks is a Xaraya Utility Module.</xar:mlstring></em>
+                <xar:mlstring>It is currently responsible for accomplishing these tasks:</xar:mlstring>
+            </p>
+                <ul>
+                    <li><xar:mlstring>Automatically links text in articles or other content modules that you have configured.</xar:mlstring></li>
+                </ul>
+            <h3>
+                <xar:mlstring>How to use it?</xar:mlstring>
+            </h3>
+            <p>
+                <xar:mlstring>Simply set your configuration for the style of links that you want to have, and then start adding autolinks into the system.  The module will transform the text from there.</xar:mlstring>
+                <ol>
+                <li><xar:mlstring>Create a type</xar:mlstring></li>
+                <li><xar:mlstring>Define it to be either dynamic or static. Dynamic transforms are more flexible.</xar:mlstring></li>
+                <li><xar:mlstring>Choose the template to use. If you create your own, make sure to place it in your themes dir.</xar:mlstring></li>
+                <li><xar:mlstring>Create a link. You can use regular expressions for the text you want to match. In that case, make sure you create the link dynamically.</xar:mlstring></li>
+                <li><xar:mlstring>Activate the link and hook the autolinks module to the module you want to transform.</xar:mlstring></li>
+                </ol>
+                <xar:mlstring>The autolinks module will transform the texts, but makes exceptions for text inclosed in tags eg in </xar:mlstring>
+                <code>&lt;a href="<xar:mlstring>something</xar:mlstring>"&gt;</code> <xar:mlstring>the word "something" will not be transformed due to being inside a tag.</xar:mlstring><br />
+                <xar:mlstring>You can use the exclude mechanism by using your own tags in a text. These exclude tags should be unique and enclose the texts that you do not want to be transformed.</xar:mlstring>
+            </p>
+            <br />
+            <h3>
+                <xar:mlstring>Privileges</xar:mlstring>
+            </h3>
+            <p>
+                <xar:mlstring>You will need to give readers of the texts a read access level to the autolinks module.</xar:mlstring>
+            </p>
+            <h3>
+                <xar:mlstring>Included Hooks</xar:mlstring>
+            </h3>
+
+            <p>
+                <xar:mlstring>Autolinks provide a transform hook for searching and replacing text as necessary.</xar:mlstring>
+            </p>
+
+            <h3>
+                    <xar:mlstring>Further Information</xar:mlstring>
+                </h3>
+                <p><xar:mlstring>Further information on Xarigami Autolinks can be found at</xar:mlstring></p>
+                <ul>
+                    <li>
+                        <xar:set name="resourcebugs">'<a href=" Xarigami Autolinks " title="'.xarML('xarigami Autolinks issue tracker').'">'.xarML('xarigami Autolinks issue tracker').'</a>'</xar:set>
+                        <xar:ml>
+                            <xar:mlstring>Please post any bugs and feature requests at #(1).</xar:mlstring>
+                            <xar:mlvar>#$resourcebugs#</xar:mlvar>
+                        </xar:ml>
+                    </li>
+                </ul>
+                <p class="xar-sub">
+                    <xar:ml>
+                        <xar:mlstring>
+                            Xarigami Autolinks Module - Overview Revision 1.7.0 2010-05-31 for Xarigami Autolinks V#(1)
+                        </xar:mlstring>
+                        <xar:mlvar>#$modInfo.version#</xar:mlvar>
+                    </xar:ml>
+                </p>
+        </div>
+    </div>
+</div>

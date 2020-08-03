@@ -1,0 +1,63 @@
+
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+    <div class="xar-mod-body">
+        <h1><xar:mlstring>Import and Export Utilities</xar:mlstring></h1>
+        <xar:template type="module" file="util-menu" />
+        <div class="xar-mod-content">
+            <form method="post" action="#xarModURL('autolinks', 'util', 'samples')#" enctype="application/x-www-form-urlencoded">
+            <p>
+                <xar:mlstring>
+                From this page you can create sample link types, links and dynamic data objects and properties.
+                The samples will only be created where the autolink type name does not exist and the template name is not used in any existing
+                autolink type.
+                </xar:mlstring>
+            </p>
+             <p>
+                <xar:mlstring>
+                For the samples to work correctly, Dyanamic Data module services must be hooked to the Autolinks module. This is done automatically
+                on install of Autolinks, but you should check this if your autolink samples are not working.
+                </xar:mlstring>
+            </p>
+            <xar:set name="displaycolor">'green'</xar:set>
+            <p>
+                <xar:ml>
+                <xar:mlstring>
+                All available samples  are listed below. Existing sample links are displayed in #(1).
+                </xar:mlstring>
+                <xar:mlvar>#$displaycolor#</xar:mlvar>
+                </xar:ml>
+            </p>
+
+            <table class="xar-items">
+                <tr>
+                    <th><xar:mlstring>Autolink Type Name</xar:mlstring></th>
+                    <th><xar:mlstring>Template Name</xar:mlstring></th>
+                </tr>
+
+                <xar:foreach in="$sample_data" key="$samplekey" value="$samplevalue">
+                    <xar:set name="existcolor">$samplevalue['exists']?"$displaycolor":''</xar:set>
+                    <tr>
+                        <td style="color:#$existcolor#">#$sample_data[$samplekey]['type_name']#</td>
+                        <td>#$sample_data[$samplekey]['template_name']#</td>
+                    </tr>
+                </xar:foreach>
+            </table>
+
+            <input type="hidden" name="authid" value="#$authid#" />
+            <xar:if condition="$counter gt 0">
+                <p><xar:mlstring>Samples already exist.  Delete or rename existing link types if you want to restore or recreate the samples.</xar:mlstring></p>
+            </xar:if>
+            <xar:if condition="$allcreated eq 1">
+            <xar:else />
+                <xar:set name="$submitsamples"><xar:mlstring>Create sample data</xar:mlstring></xar:set>
+                <p><input type="submit" name="createsamples" id="createsamples" value="#$submitsamples#" /></p>
+            </xar:if>
+        </form>
+        </div>
+    </div>
+</div>

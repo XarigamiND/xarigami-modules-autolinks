@@ -1,0 +1,91 @@
+<xar:base-include-javascript libname="jquery" libfile="jquery.min" plugin="ui" pluginfile="ui.core.min,ui.dialog.min" style="ui.css" />
+<xar:template type="module" module="autolinks" file="jq-autolinks-viewtype" />
+<xar:style scope="module" module="autolinks" file="autolinks" />
+<xar:style file="xgamisprites" module="base" scope="module" />
+<xar:set name="edit"><xar:mlstring>Edit</xar:mlstring></xar:set>
+<xar:set name="delete"><xar:mlstring>Delete</xar:mlstring></xar:set>
+<xar:set name="view"><xar:mlstring>View autolinks</xar:mlstring></xar:set>
+<div class="xar-mod-page">
+    <div class="xar-mod-head">
+        <xar:if condition="!xarRequestIsAJAX()">
+            <xar:template type="module" module="base" file="admin-menu" />
+        </xar:if>
+    </div>
+    <div class="xar-mod-body">
+        <h1 class="xar-floatleft"><xar:mlstring>View Autolink Types</xar:mlstring></h1>
+        <div class="xar-mod-content">
+            <p class="xar-align-right" style="padding-bottom:10px;">
+                <a class="esprite xs-document-new xar-displayinline" href="#xarModURL('autolinks','admin','newtype')#"><xar:mlstring>&#160;Add Autolink Type</xar:mlstring></a>
+            </p>
+            <xar:if condition="!empty($items)">
+                <table class="xar-items">
+                <thead>
+                    <tr>
+                        <th><xar:mlstring>Name</xar:mlstring></th>
+                        <th><xar:mlstring>Template</xar:mlstring></th>
+                        <th><xar:mlstring>Method</xar:mlstring></th>
+                        <th><xar:mlstring>Description</xar:mlstring></th>
+                        <th><xar:mlstring>Options</xar:mlstring></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <xar:set name="rowclass">'xar-norm'</xar:set>
+                    <xar:foreach in="$items" value="$item">
+                        <tr class="#$rowclass#">
+                            <td>
+                                <xar:if condition="empty($item['editurl'])">
+                                    #xarVarPrepForDisplay($item['type_name'])#
+                                <xar:else />
+                                    <a href="#$item['editurl']#">#xarVarPrepForDisplay($item['type_name'])#</a>
+                                </xar:if>
+                            </td>
+                            <td>
+                                #xarModGetVar('autolinks','templatebase', 1)#-#xarVarPrepForDisplay($item['template_name'])#.xd
+                            </td>
+                            <td><xar:if condition="!empty($item['dynamic_replace'])">
+                                <xar:mlstring>Dynamic</xar:mlstring>
+                            <xar:else />
+                                <xar:mlstring>Static</xar:mlstring>
+                            </xar:if></td>
+                            <td>
+                                #xarVarPrepForDisplay($item['type_desc'])#
+                            </td>
+                            <td class="xar-item-actions">
+                                <xar:if condition="empty($item['linksurl'])">
+                                    <span class="esprite xs-item-list xar-icon-disabled"><span>#$view#</span></span>
+                                <xar:else />
+                                   <a href="#$item['linksurl']#" class="esprite xs-item-list" title="#$view#" ><span>#$view#</span></a>
+                                </xar:if>
+                                <xar:if condition="empty($item['editurl'])">
+                                    <span class="esprite xs-modify xar-icon-disabled"><span>#$edit#</span></span>
+                                <xar:else />
+                                    <a href="#$item['editurl']#" class="esprite xs-modify" title="#$edit#" ><span>#$edit#</span></a>
+                                </xar:if>
+                                <xar:if condition="empty($item['deleteurl'])">
+                                    <span class="esprite xs-delete xar-icon-disabled"><span>#$delete#</span></span>
+                                <xar:else />
+                                    <a href="#$item['deleteurl']#" id="delete_#$item['tid']#" class="esprite xs-delete" title="#$delete#"><span>#$delete#</span></a>
+                                </xar:if>
+                            </td>
+                        </tr>
+                        <xar:set name="rowclass">$rowclass == 'xar-norm' ? 'xar-alt' : 'xar-norm'</xar:set>
+                    </xar:foreach>
+                </tbody>
+                </table>
+                <div class="xar-form-footer">
+                    <p class="esprite xs-item-list xar-displayinline">&#160;  #$view#&#160;</p>
+                    <p class="esprite xs-modify xar-displayinline">&#160;  #$edit#&#160;</p>
+                    <p class="esprite xs-delete xar-displayinline">&#160;  #$delete#&#160;</p>
+                </div>
+                <!-- add the pager here -->
+                #$pager#
+
+            <xar:else/>
+                <p class="xar-align-center">
+                    <xar:mlstring>No Autolink types defined</xar:mlstring>
+                </p>
+            </xar:if>
+        </div>
+    </div>
+</div>

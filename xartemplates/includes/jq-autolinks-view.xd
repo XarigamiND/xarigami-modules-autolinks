@@ -1,0 +1,62 @@
+<xar:base-include-javascript libname="jquery" libfile="jquery.min" plugin="treetable" pluginfile="jquery.treeTable.min" style="stylesheets/jquery.treeTable.css" module="xarpages"/>
+<xar:set name="expandall"><xar:mlstring>Display all link info</xar:mlstring></xar:set>
+<xar:set name="collapseall"><xar:mlstring>Collapse all link info</xar:mlstring></xar:set>  
+<xar:set name="autolinksviewcode">"
+jQuery(document).ready(function() {
+    var dialog_width = 300;
+    var dialog_height = 'auto';
+    var expandall = \"$expandall\"; 
+    var collapseall = \"$collapseall\"; 
+    jQuery('span[class=js_disabled]').hide();
+    
+    jQuery('#"."checkcontrols').append('[ <a href=\"#\" class=\"items_collapsetoggle \" >'+collapseall+'</a> | <a href=\"#\" class=\"items_expandtoggle\" >'+expandall+'</a> ]');  
+    jQuery('a.items_collapsetoggle').click(function() { 
+        jQuery('table.xar-items tr.autolinks-info').removeClass('expanded').addClass('collapsed');
+        jQuery('table.xar-items tr.autolinks-info').hide();
+        return false;
+    });
+    jQuery('a.items_expandtoggle').click(function() { 
+        jQuery('table.xar-items tr.autolinks-info').removeClass('collapsed').addClass('expanded');
+        jQuery('table.xar-items tr.autolinks-info').show();
+        return false;
+    });
+    // Create an onclick handler for the delete links
+    jQuery('table.xar-items a[id^=delete]').click(function() {
+        var a = this;
+        // remove and recreate the dialog container
+        jQuery('#"."xardialogtarget').remove();
+        jQuery('body').append('".chr(60)."div id=\'xardialogtarget\' style=\'display: none;\'".chr(62).chr(60)."/div".chr(62)."');
+        // populate the dialog... we get the content from the first TD in the row
+        jQuery('#" . "xardialogtarget').html('".chr(60)."h3" . chr(62) . str_replace("'", "\'", xarML('Delete this autolink?')) . chr(60) ."/h3" . chr(62) . chr(60) . "p style=\'text-align: center;\'" . chr(62) . "' + jQuery.trim(jQuery(this).parent().parent().children(':first').children().filter('a').text()) + '" . chr(60) . "/p" . chr(62) ."');
+    
+        jQuery('#" . "xardialogtarget').dialog({
+            // dialog options
+            title: '" . str_replace("'", "\'", xarML('Delete Autolink')) . "',
+            width: dialog_width,
+            height: dialog_height,
+            buttons: {
+                // Cancel button
+                '". str_replace("'", "\'", xarML('Cancel')) . "': function() { jQuery(this).dialog('close'); },
+                // Delete button: we add confirm param to the delete URL, and set window.location to it
+                '". str_replace("'", "\'", xarML('Delete')) . "': function() { a.setAttribute('href', a.getAttribute('href') + '".chr(38)."confirm=1');jQuery(this).dialog('close');window.location = a.getAttribute('href'); }
+            },
+            bgiframe: true,
+            modal: true,
+            draggable: false,
+            resizable: false
+        });
+        return false;
+    });    
+    jQuery('form#linklist select#tidselect').change(function() { this.form.submit(); });
+    
+    jQuery('table.xar-items tr.autolinks-info').hide();
+    jQuery('table.xar-items span.autolinks-infoicon').show()
+    jQuery('table.xar-items span.autolinks-infoicon.xar-icon').click(function() {
+        jQuery(this).parent().parent().next().toggle();
+        return false;
+    });    
+   
+});
+"</xar:set>
+<xar:base-include-javascript type="code" code="$autolinksviewcode" position="body"/>
+

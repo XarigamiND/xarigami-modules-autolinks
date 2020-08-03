@@ -1,0 +1,29 @@
+<xar:comment> License: GPL http://www.gnu.org/copyleft/gpl.html </xar:comment>
+<xar:comment>Common Administration menu</xar:comment>
+<xar:style scope="module" module="base" file="tabs" />
+
+<xar:set name="request">xarRequestGetInfo()</xar:set>
+<xar:set name="activetab2">#$request.2#</xar:set>
+<xar:set name="activetype2">#$request.1#</xar:set>
+<div>
+    <ul class="xar-tabs">
+        <li class="xar-tabs-label" title="#xarML('Choose an action to perform')#">
+            <xar:mlstring>Utility:</xar:mlstring>
+        </li>
+        <xar:sec mask="AdminAutolinks" catch="false">
+            <xar:set name="tabclass2">($activetab2 == 'main') ? 'xar-tab-active' :  'xar-tab'</xar:set>
+             <li class="#$tabclass2#">
+              <a href="#xarModURL('autolinks','util','main')#">
+                <xar:mlstring>Export Autolinks</xar:mlstring>
+              </a>
+            </li>
+
+            <xar:set name="tabclass2">($activetab2 == 'samples') ? 'xar-tab-active' :  'xar-tab'</xar:set>
+            <li class="#$tabclass2#">
+              <a href="#xarModURL('autolinks','util','samples')#">
+                <xar:mlstring>Sample Links</xar:mlstring>
+              </a>
+            </li>
+        </xar:sec>
+    </ul>
+</div>
