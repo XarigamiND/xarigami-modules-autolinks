@@ -100,11 +100,8 @@ function autolinks_admin_create()
     }
 
     // Error in creating the item.
-        $errorcount += 1;
-        $data['global_error'] = xarML('Error creating an autolink.');
-
-
     if ($errorcount > 0) {
+        $data['global_error'] = xarML('Error creating an autolink.');
         $data['tid'] = $tid;
         $data['keyword'] = $keyword;
         $data['name'] = $name;
