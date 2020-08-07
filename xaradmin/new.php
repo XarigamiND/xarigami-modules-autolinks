@@ -45,11 +45,9 @@ function autolinks_admin_new($args)
         $data['global_error'] = xarML('Autolink Types must be created before Autolinks');
     } else {
         // Sort by type name, preserving the key association.
-        $sortfunc = create_function(
-            '$a,$b',
-            'if ($a["type_name"] == $b["type_name"]) return 0;'
-            .'return ($a["type_name"] < $b["type_name"]) ? -1 : 1;'
-        );
+        $sortfunc = function($a,$b) {
+            if ($a["type_name"] == $b["type_name"]) return 0;
+            return ($a["type_name"] < $b["type_name"]) ? -1 : 1; };
         uasort($types, $sortfunc);
 
         // Set the types for display in the template.
