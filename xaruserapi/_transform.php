@@ -158,6 +158,10 @@ function autolinks_userapi__transform($args)
         $alreplace = array();
     }
 
+    // These will collect autolinks that need function callback
+    $dynamic_patterns = [];
+    $replace_callbacks = [];
+
     if (empty($gotautolinks)) {
         if (!isset($lid)) {
             // Normal mode: go through all enabled autolinks.
@@ -213,10 +217,9 @@ function autolinks_userapi__transform($args)
             }
 
             // Note use of assertions here to only match specific words.
-            $alsearch[] = '/' . '(?<=[\s' . $punctuation . ']|^)('
+            $search_pattern = '/' . '(?<=[\s' . $punctuation . ']|^)('
                 . $keywordre
-                . ')(?=[\s' . $punctuation . ']|$)' . '/is'
-                . ($tmpautolink['dynamic_replace'] ? 'e' : '');
+                . ')(?=[\s' . $punctuation . ']|$)' . '/is';
 
             // The replace will be either a straight string or a function to execute.
             if ($tmpautolink['dynamic_replace']) {
@@ -233,12 +236,23 @@ function autolinks_userapi__transform($args)
                     $replace = 'array()';
                 }
 
-                $alreplace[] = 'autolinks_userapi__transform_preg(\''
-                    . $tmpautolink['template_name'] . '\', \'$1\', '
-                    . $replace . ', \'' . $munger . '\')';
+                $dynamic_patterns[] = $search_pattern;
+                $replace_callbacks[] = function($matches) use ($tmpautolink, $replace, $munger) {
+                    // Emulate the $1 $2 like replacements of the non-callback autolinks
+                    // This and the eval() below was previosly done via preg_replace /e switch (deprecated)
+                    // But I'm not sure if this implementation fully matches original preg_replace/e -Lion
+                    for($i = 1; $i<count($matches);$i++) {
+                        $replace = str_replace('$'.$i, $matches[$i], $replace);
+                    }
+                    $replace = eval("return ".$replace.";"); // Expand the array stored in string format
+                    return autolinks_userapi__transform_preg(
+                        $tmpautolink['template_name'], $matches[1],
+                        $replace, $munger);
+                };
             } else {
                 // Replacement string.
                 // Munge the word boundaries to prevent a recursive match.
+                $alsearch[] = $search_pattern;
                 $alreplace[] = preg_replace('/([^a-z])([a-z])/i', '$1'.$munger.'$2', $replace);
             }
         }
@@ -312,14 +326,18 @@ function autolinks_userapi__transform($args)
     // back into an array. It seems to be faster than doing the substitution
     // directly on the content array (probably cartesian product), and also
     // allows a limit to the number of matches to be set.
-    $content_array = explode(
-        $joiner,
-        preg_replace($alsearch, $alreplace, implode($joiner, $content_array), $limit)
-    );
+    $result = preg_replace($alsearch, $alreplace, implode($joiner, $content_array), $limit);
+
+    // Do all callback based replaces one by one
+    for($i = 0; $i < count($dynamic_patterns); $i++) {
+        $result = preg_replace_callback($dynamic_patterns[$i], $replace_callbacks[$i], $result, $limit);
+    }
+
+    $content_array = explode($joiner, $result);
 
     // Zip the two arrays back together.
     // Looping for each element and building a string is slow; array_map seems to be fast enough.
-    $func_join_strings = create_function('$m,$n', 'return (!empty($m)?$m:"") . (!empty($n)?$n:"");');
+    $func_join_strings = function($m,$n) { return (!empty($m)?$m:"") . (!empty($n)?$n:""); };
     $text = implode('', array_map($func_join_strings, $content_array, $tag_array[0]));
 
     // Strip out munger characters.
