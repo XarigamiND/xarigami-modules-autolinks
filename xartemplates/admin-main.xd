@@ -1,6 +1,5 @@
 <xar:comment> License: GPL http://www.gnu.org/copyleft/gpl.html </xar:comment>
 <xar:set name="modInfo">xarModGetInfo(xarModGetIDFromName('autolinks'))</xar:set>
-<xar:set name="xarigamiprojectlink">'<a href="http://xarigami.com/contrails/view/xauto/" title="'.xarML('xarigami Autolinks Project page at xarigami.com').'">'.xarML('xarigami Autolinks project page').'</a>'</xar:set>
 
 <div class="xar-mod-page">
     <div class="xar-mod-head">
@@ -54,15 +53,8 @@
             <h3>
                     <xar:mlstring>Further Information</xar:mlstring>
                 </h3>
-                <p><xar:mlstring>Further information on Xarigami Autolinks can be found at</xar:mlstring></p>
                 <ul>
-                    <li>
-                        <xar:set name="resourcebugs">'<a href=" Xarigami Autolinks " title="'.xarML('xarigami Autolinks issue tracker').'">'.xarML('xarigami Autolinks issue tracker').'</a>'</xar:set>
-                        <xar:ml>
-                            <xar:mlstring>Please post any bugs and feature requests at #(1).</xar:mlstring>
-                            <xar:mlvar>#$resourcebugs#</xar:mlvar>
-                        </xar:ml>
-                    </li>
+                    <li><xar:mlstring>Autolinks Extension page</xar:mlstring> <xar:mlstring>(there is no project page yet)</xar:mlstring></li>
                 </ul>
                 <p class="xar-sub">
                     <xar:ml>
