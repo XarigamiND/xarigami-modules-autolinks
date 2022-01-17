@@ -93,7 +93,7 @@ function autolinks_userapi_getreplace($args)
                 // Splitting a property name into parts using underscores will allow
                 // sub-arrays of any depth to be created. This is a bit of a work-around
                 // that perhaps DD will support directly in the future.
-                if ($name{0} != '_') {
+                if ($name[0] != '_') {
                     // e.g. a DD property named 'a' will be evaluated as $template_data['a']
                     // and a DD property named 'a_b_c' will be evaluated as $template_data['a']['b']['c']
                     if (strpos($name, '_') !== FALSE) {
